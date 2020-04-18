@@ -1,0 +1,64 @@
+### This file using a example of automately logining in qq mailbox 
+### and send an email and finally logining out to simply illustrate
+### how to use selenium.
+
+package Demo;
+
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.chrome.ChromeDriver;
+//import org.openqa.selenium.firefox.FirefoxDriver;
+
+public class TestBaidu {
+
+	public static void main(String[] args) throws InterruptedException {
+		// TODO Auto-generated method stub
+		WebDriver driver;
+		System.setProperty("webdriver.gecko.driver", "D:\\eclipse-software\\JEE\\eclipse\\geckodriver.exe");
+		
+		driver = new ChromeDriver();
+//		driver = new FirefoxDriver();
+		
+		driver.get("https://ui.ptlogin2.qq.com/cgi-bin/login?style=9&appid=522005705&daid=4&s_url=https%3A%2F%2Fw.mail.qq.com%"
+				+ "2Fcgi-bin%2Flogin%3Fvt%3Dpassport%26vm%3Dwsk%26delegate_url%3D%26f%3Dxhtml%26target%3D&hln_css=http%3A%2F%2Fmail.qq.com%2Fzh_CN"
+				+ "%2Fhtmledition%2Fimages%2Flogo%2Fqqmail%2Fqqmail_logo_default_200h.png&low_login=1&hln_autologin=%E8%AE%B0%E4%BD%8F%E7%99%BB%E5"
+				+ "%BD%95%E7%8A%B6%E6%80%81&pt_no_onekey=1");
+		// fill in the login infomation at the login page
+		driver.findElement(By.id("u")).sendKeys("your mailbox");
+		driver.findElement(By.id("p")).sendKeys("password");
+		driver.findElement(By.id("go")).click();  //click login in button
+		
+		// response time for page jump
+		Thread.sleep(3000);
+		
+		// enter main interface
+		driver.findElement(By.xpath("/html/body/div/nav/a[2]/span")).click();  //click write email
+		
+		// response time for page jump
+		Thread.sleep(3000);
+		
+		//  enter the interface for writeing email
+		driver.findElement(By.id("showto")).sendKeys("target mailbox");  // Fill in recipient
+		driver.findElement(By.id("subject")).sendKeys("NOTICE");  //fill in subject
+		driver.findElement(By.id("content")).sendKeys("I hope myself to work hard for everyday!"); //fill in content
+		driver.findElement(By.xpath("/html/body/div/section[2]/div/div[2]/form[1]/div[1]/input")).click(); //click send btn
+		
+		// response time for page jump
+		Thread.sleep(3000);
+		
+		// enter prompt interface when send eamil successfully.
+		driver.findElement(By.linkText("返回")).click(); //click return btn
+		
+		// response time for page jump
+		Thread.sleep(3000);
+		
+		// return to sending email interface, click return to return main interface.
+		driver.findElement(By.xpath("//*[@id=\"postform\"]/div[1]/a")).click();
+		
+		// response time for page jump
+		Thread.sleep(3000);
+		
+		// login out
+		driver.findElement(By.linkText("退出")).click();
+	}
+}
